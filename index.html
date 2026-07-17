@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amish Chaudhary — Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F7F8FB;
+    --bg-alt:#FFFFFF;
+    --ink:#12131A;
+    --ink-soft:#565A6E;
+    --line:#E4E7F0;
+    --blue:#3457D5;
+    --blue-soft:#EAEEFC;
+    --coral:#F2545B;
+    --teal:#1FA98E;
+    --amber:#E8A33D;
+    --radius:10px;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;} }
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.6;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:48px 48px;
+    background-attachment:fixed;
+  }
+
+  a{color:inherit; text-decoration:none;}
+  ::selection{background:var(--blue); color:#fff;}
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--blue);
+    outline-offset:3px;
+  }
+
+  .wrap{max-width:1120px; margin:0 auto; padding:0 28px;}
+
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--blue);
+    letter-spacing:0.02em;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:14px;
+  }
+  .eyebrow::before{content:'--'; color:var(--ink-soft); opacity:0.5;}
+
+  /* NAV */
+  header.site-nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(247,248,251,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 28px;
+    max-width:1120px; margin:0 auto;
+  }
+  .logo{
+    font-family:var(--font-mono);
+    font-weight:600;
+    font-size:16px;
+  }
+  .logo span{color:var(--blue);}
+  .nav-links{display:flex; gap:32px; align-items:center;}
+  .nav-links a{
+    font-size:14px; font-weight:500; color:var(--ink-soft);
+    transition:color 0.15s ease;
+  }
+  .nav-links a:hover{color:var(--ink);}
+  .nav-cta{
+    font-family:var(--font-mono);
+    font-size:13px;
+    padding:8px 16px;
+    border:1px solid var(--ink);
+    border-radius:6px;
+    color:var(--ink) !important;
+  }
+  .nav-cta:hover{background:var(--ink); color:var(--bg) !important;}
+  .nav-toggle{display:none;}
+
+  /* HERO */
+  .hero{
+    padding:96px 0 80px;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    gap:56px;
+    align-items:center;
+  }
+  .hero h1{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(34px, 4.4vw, 54px);
+    line-height:1.08;
+    letter-spacing:-0.01em;
+    margin-bottom:20px;
+  }
+  .hero h1 .accent{color:var(--blue);}
+  .hero p.lede{
+    font-size:17px;
+    color:var(--ink-soft);
+    max-width:46ch;
+    margin-bottom:32px;
+  }
+  .hero-actions{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:14.5px;
+    padding:13px 24px;
+    border-radius:7px;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+    border:1px solid transparent;
+  }
+  .btn-primary{background:var(--ink); color:#fff !important;}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(18,19,26,0.18);}
+  .btn-ghost{border-color:var(--ink); color:var(--ink) !important;}
+  .btn-ghost:hover{transform:translateY(-2px); background:var(--bg-alt);}
+
+  /* SQL editor card */
+  .query-card{
+    background:#12131A;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 20px 50px -18px rgba(18,19,26,0.45);
+    border:1px solid #262838;
+  }
+  .query-bar{
+    display:flex; align-items:center; gap:8px;
+    padding:12px 16px;
+    background:#191A24;
+    border-bottom:1px solid #262838;
+  }
+  .dot{width:10px; height:10px; border-radius:50%;}
+  .dot.r{background:#F2545B;} .dot.y{background:#E8A33D;} .dot.g{background:#1FA98E;}
+  .query-filename{
+    font-family:var(--font-mono); font-size:12px; color:#8A8DA3; margin-left:8px;
+  }
+  .query-body{padding:22px 20px; font-family:var(--font-mono); font-size:13.5px;}
+  .query-line{color:#8A8DA3; white-space:pre;}
+  .kw{color:#7CA6FF;} .str{color:#E8A33D;} .fn{color:#5FD9C3;}
+  #typed-query{color:#E7E8F0; white-space:pre-wrap; word-break:break-word;}
+  .caret{display:inline-block; width:7px; height:15px; background:#7CA6FF; vertical-align:middle; animation:blink 1s step-end infinite;}
+  @keyframes blink{50%{opacity:0;}}
+
+  .result-table{
+    margin-top:18px;
+    border-top:1px solid #262838;
+    padding-top:16px;
+    opacity:0;
+    transform:translateY(6px);
+    transition:opacity 0.5s ease, transform 0.5s ease;
+  }
+  .result-table.show{opacity:1; transform:translateY(0);}
+  .result-table table{width:100%; border-collapse:collapse; font-size:12.5px;}
+  .result-table th{
+    text-align:left; color:#5FD9C3; font-weight:500; padding:4px 10px 8px 0;
+    border-bottom:1px solid #262838; font-family:var(--font-mono);
+  }
+  .result-table td{
+    color:#C7C9D9; padding:7px 10px 7px 0; border-bottom:1px solid #1E1F2C;
+    font-family:var(--font-mono);
+  }
+  .result-table .row-status{color:#5FD9C3;}
+
+  /* SECTIONS */
+  section{padding:88px 0;}
+  section.alt{background:var(--bg-alt); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  h2.section-title{
+    font-family:var(--font-display);
+    font-size:clamp(26px, 3vw, 34px);
+    font-weight:600;
+    margin-bottom:16px;
+  }
+  .section-head{max-width:640px; margin-bottom:48px;}
+  .section-head p{color:var(--ink-soft); font-size:15.5px;}
+
+  /* ABOUT */
+  .about-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start;
+  }
+  .about-grid p{color:var(--ink-soft); font-size:16px; margin-bottom:16px;}
+  .about-grid p strong{color:var(--ink);}
+  .stat-list{display:grid; gap:18px;}
+  .stat{
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px 20px;
+  }
+  .stat .num{font-family:var(--font-display); font-size:26px; font-weight:700; color:var(--blue);}
+  .stat .label{font-size:13px; color:var(--ink-soft); margin-top:2px;}
+
+  /* SKILLS */
+  .skills-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
+    gap:20px;
+  }
+  .skill-card{
+    background:var(--bg-alt);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:24px 22px;
+    transition:border-color 0.15s ease, transform 0.15s ease;
+  }
+  .skill-card:hover{border-color:var(--blue); transform:translateY(-3px);}
+  .skill-card .icon-bar{
+    width:34px; height:4px; border-radius:2px; margin-bottom:16px;
+  }
+  .skill-card h3{font-family:var(--font-display); font-size:17px; margin-bottom:10px;}
+  .tag-row{display:flex; flex-wrap:wrap; gap:7px;}
+  .tag{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    padding:4px 9px;
+    border-radius:5px;
+    background:var(--blue-soft);
+    color:var(--blue);
+  }
+
+  /* PROJECTS */
+  .project-list{display:grid; gap:24px;}
+  .project-card{
+    background:var(--bg-alt);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:32px;
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    gap:28px;
+    align-items:start;
+  }
+  .project-index{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--ink-soft);
+    padding-top:4px;
+  }
+  .project-card h3{
+    font-family:var(--font-display);
+    font-size:21px;
+    margin-bottom:10px;
+  }
+  .project-card p{color:var(--ink-soft); font-size:15px; margin-bottom:16px; max-width:60ch;}
+  .project-meta{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:6px;}
+  .project-links{display:flex; flex-direction:column; gap:10px; align-items:flex-end;}
+  .project-links a{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    color:var(--blue);
+    display:flex; align-items:center; gap:6px;
+    white-space:nowrap;
+  }
+  .project-links a:hover{text-decoration:underline;}
+  .highlight-chip{
+    font-size:11.5px;
+    font-family:var(--font-mono);
+    background:#FCEEEA;
+    color:var(--coral);
+    padding:3px 9px;
+    border-radius:5px;
+  }
+
+  /* RESUME / CTA */
+  .resume-band{
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--ink);
+    color:#fff;
+    border-radius:14px;
+    padding:44px 48px;
+    flex-wrap:wrap;
+    gap:24px;
+  }
+  .resume-band h2{
+    font-family:var(--font-display); font-size:26px; font-weight:600; margin-bottom:8px;
+  }
+  .resume-band p{color:#A7ABC2; font-size:15px; max-width:44ch;}
+  .btn-light{background:#fff; color:var(--ink) !important;}
+  .btn-light:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,0.25);}
+
+  /* CONTACT */
+  .contact-grid{
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px;
+  }
+  .contact-list{display:grid; gap:2px;}
+  .contact-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .contact-row .label{font-size:13px; color:var(--ink-soft); font-family:var(--font-mono);}
+  .contact-row .value{font-size:15.5px; font-weight:500;}
+  .contact-row a.value:hover{color:var(--blue);}
+
+  .contact-note{
+    background:var(--bg-alt);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px;
+    font-size:14.5px;
+    color:var(--ink-soft);
+  }
+  .contact-note .status-dot{
+    display:inline-block; width:8px; height:8px; border-radius:50%;
+    background:var(--teal); margin-right:8px;
+  }
+
+  footer{
+    padding:32px 0 40px;
+    text-align:center;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+
+  /* MOBILE */
+  @media (max-width: 860px){
+    .hero-grid{grid-template-columns:1fr;}
+    .about-grid{grid-template-columns:1fr;}
+    .contact-grid{grid-template-columns:1fr;}
+    .project-card{grid-template-columns:1fr; gap:14px;}
+    .project-links{align-items:flex-start;}
+    .nav-links{display:none;}
+    .resume-band{flex-direction:column; align-items:flex-start; padding:36px 28px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <div class="logo">amish<span>.</span>chaudhary</div>
+    <nav class="nav-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+      <a href="#contact" class="nav-cta">Let's talk</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">status: open to work</div>
+      <h1>I turn messy tables into decisions people can <span class="accent">act on</span>.</h1>
+      <p class="lede">Amish Chaudhary — Data Analyst fresh out of an MBA in Business Analytics, based in Gurugram. I write the SQL, build the dashboard, and tell you what it means for the business.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">View projects</a>
+        <a href="https://github.com/amish-chaudhary" target="_blank" rel="noopener" class="btn btn-ghost">GitHub ↗</a>
+      </div>
+    </div>
+
+    <div class="query-card">
+      <div class="query-bar">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="query-filename">profile.sql</span>
+      </div>
+      <div class="query-body">
+        <div id="typed-query"></div>
+        <div class="result-table" id="result-table">
+          <table>
+            <thead>
+              <tr><th>name</th><th>role</th><th>location</th><th>status</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Amish Chaudhary</td>
+                <td>Data / Business Analyst</td>
+                <td>Gurugram, IN</td>
+                <td class="row-status">available</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about-grid">
+    <div>
+      <div class="eyebrow">about</div>
+      <h2 class="section-title">From spreadsheets to strategy</h2>
+      <p>I completed my <strong>MBA in Business Analytics from Central University of Andhra Pradesh in May 2026</strong>, and I've spent the months since going deep on the tools that turn raw data into decisions: SQL, Excel, and Power BI.</p>
+      <p>My approach is practical over theoretical — every skill I list here, I've used on a real dataset, not just a tutorial. I like problems with a clear before-and-after: messy rows in, a business answer out.</p>
+      <p>Currently based in <strong>Gurugram</strong>, originally from <strong>Ayodhya, Uttar Pradesh</strong>, and actively looking for my first full-time analyst role.</p>
+    </div>
+    <div class="stat-list">
+      <div class="stat"><div class="num">51,717</div><div class="label">restaurant records analyzed in flagship SQL project</div></div>
+      <div class="stat"><div class="num">23+</div><div class="label">business-driven SQL queries across 6 analytical domains</div></div>
+      <div class="stat"><div class="num">2026</div><div class="label">MBA, Business Analytics — Central University of Andhra Pradesh</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">skills</div>
+      <h2 class="section-title">The toolkit</h2>
+      <p>What I reach for first, and what I've built with it.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="icon-bar" style="background:var(--blue)"></div>
+        <h3>SQL</h3>
+        <div class="tag-row">
+          <span class="tag">MySQL</span>
+          <span class="tag">Joins</span>
+          <span class="tag">Window Fns</span>
+          <span class="tag">CTEs</span>
+          <span class="tag">Subqueries</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="icon-bar" style="background:var(--teal)"></div>
+        <h3>Excel</h3>
+        <div class="tag-row">
+          <span class="tag">XLOOKUP</span>
+          <span class="tag">INDEX-MATCH</span>
+          <span class="tag">Pivot Tables</span>
+          <span class="tag">Power Query</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="icon-bar" style="background:var(--coral)"></div>
+        <h3>BI & Visualization</h3>
+        <div class="tag-row">
+          <span class="tag">Power BI</span>
+          <span class="tag">DAX</span>
+          <span class="tag">Tableau</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="icon-bar" style="background:var(--amber)"></div>
+        <h3>Analysis & Scripting</h3>
+        <div class="tag-row">
+          <span class="tag">Python</span>
+          <span class="tag">pandas</span>
+          <span class="tag">R</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">projects</div>
+      <h2 class="section-title">Selected work</h2>
+      <p>Two projects, start to finish — from raw data to a finding worth acting on.</p>
+    </div>
+    <div class="project-list">
+      <div class="project-card">
+        <div class="project-index">01</div>
+        <div>
+          <h3>Zomato Bangalore Restaurant Intelligence</h3>
+          <p>End-to-end SQL analysis of 51,717 restaurant records from Kaggle — cleaned and loaded via a Python/pandas pipeline into MySQL, then queried across six analytical domains to surface expansion and quality signals.</p>
+          <div class="project-meta">
+            <span class="highlight-chip">Found: expansion signal in Sankey Road</span>
+            <span class="highlight-chip">Found: table booking ↔ quality correlation</span>
+          </div>
+          <div class="tag-row">
+            <span class="tag">MySQL</span>
+            <span class="tag">Window Functions</span>
+            <span class="tag">CTEs</span>
+            <span class="tag">pandas</span>
+          </div>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/amish-chaudhary" target="_blank" rel="noopener">View on GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-index">02</div>
+        <div>
+          <h3>Amazon E-Commerce Sales Dashboard</h3>
+          <p>Interactive Power BI dashboard built on Amazon e-commerce sales data, with custom DAX measures for revenue, category, and trend breakdowns to support quick, visual decision-making.</p>
+          <div class="project-meta">
+            <span class="highlight-chip">Custom DAX measures</span>
+          </div>
+          <div class="tag-row">
+            <span class="tag">Power BI</span>
+            <span class="tag">DAX</span>
+          </div>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/amish-chaudhary" target="_blank" rel="noopener">View on GitHub ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="resume-band">
+      <div>
+        <h2>Want the short version?</h2>
+        <p>Grab my résumé for the full breakdown of experience, education, and tools.</p>
+      </div>
+      <a href="https://github.com/amish-chaudhary" target="_blank" rel="noopener" class="btn btn-light">Download résumé ↗</a>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <div class="eyebrow">contact</div>
+      <h2 class="section-title">Let's work together</h2>
+      <div class="contact-list">
+        <div class="contact-row">
+          <span class="label">email</span>
+          <a class="value" href="mailto:chaudharyamish95@gmail.com">chaudharyamish95@gmail.com</a>
+        </div>
+        <div class="contact-row">
+          <span class="label">phone</span>
+          <a class="value" href="tel:+919696565837">+91 96965 65837</a>
+        </div>
+        <div class="contact-row">
+          <span class="label">github</span>
+          <a class="value" href="https://github.com/amish-chaudhary" target="_blank" rel="noopener">amish-chaudhary</a>
+        </div>
+        <div class="contact-row">
+          <span class="label">location</span>
+          <span class="value">Gurugram, India</span>
+        </div>
+      </div>
+    </div>
+    <div class="contact-note">
+      <p><span class="status-dot"></span><strong>Currently interviewing</strong> for Data Analyst and Business Analyst roles. Reach out directly by email or phone — I usually reply within a day.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© 2026 Amish Chaudhary — built with SQL brain, HTML hands.</div>
+</footer>
+
+<script>
+  const query = `SELECT name, role, location, status
+FROM analysts
+WHERE curiosity > AVG(curiosity)
+  AND ready_to_join = TRUE;`;
+
+  const el = document.getElementById('typed-query');
+  const resultTable = document.getElementById('result-table');
+  let i = 0;
+
+  function highlight(text){
+    return text
+      .replace(/\b(SELECT|FROM|WHERE|AND|TRUE)\b/g, '<span class="kw">$1</span>');
+  }
+
+  function type(){
+    if(i <= query.length){
+      el.innerHTML = highlight(query.slice(0, i)) + '<span class="caret"></span>';
+      i++;
+      setTimeout(type, 18);
+    } else {
+      el.innerHTML = highlight(query);
+      setTimeout(()=> resultTable.classList.add('show'), 200);
+    }
+  }
+  type();
+</script>
+
+</body>
+</html>
